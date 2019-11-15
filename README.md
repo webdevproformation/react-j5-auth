@@ -1,68 +1,73 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## résumé
 
-## Available Scripts
+starter = site internet
+plusieurs pages
+front
+admin
 
-In the project directory, you can run:
+dans le front => Login
+formulaire saisit les informations => state
 
-### `yarn start`
+lorsque l'on clique sur le bouton "Connexion "
+Appel une API
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+appeler une API => axios
+const reponse = await axios.post ("url" , {login : "", mdp ""})
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+si les login et mot de passe ne sont pas conformes => 400
 
-### `yarn test`
+si les login et mot de passe sont OK
+=> 200
+retour {
+data : "message",
+token : "JsonWebToken"
+}
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `yarn build`
+=>
+algorithme qui va transformer sur le serveur :
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const user = {
+id:12345,
+name: "Alain"
+role : "admin"
+}
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+const cleprivee = "dzoiuegaozo"
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+convert_jwt(user, cleprivee) =>
 
-### `yarn eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+crypte et decrypter //
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+stocker dans le navigateur (client) => dans
+le localStorage
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+localStorage.setItem("nom_dans_le_storage","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.")
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+logout
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+dans NavBar et dans admin/NavBar
 
-### Code Splitting
+clique sur le lien =>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+// localStorage.removeItem("token")
+// redirection vers la page de login => window.location = "/login"
 
-### Analyzing the Bundle Size
+Attention cette fonction a été réalisée dans deux composants
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+---
 
-### Making a Progressive Web App
+Guard = Protection des Routes
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+est ce que dans le navigateur il y a un token valide
+si oui => affiche la page demdandée
+si c'est non => redirige vers la page de login
 
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Dans App.jsx => url et le composant

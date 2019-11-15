@@ -4,7 +4,8 @@ import axios from "axios";
 
 class Login extends Component {
   state = {
-    credentials: { login: "", password: "" }
+    credentials: { login: "", password: "" },
+    errors: ""
   };
 
   connexion = async e => {
@@ -21,19 +22,27 @@ class Login extends Component {
 
     // axios => yarn add axios
 
-    const result = await axios.post(
-      "https://nameless-retreat-19640.herokuapp.com/api/connexion",
-      {
-        login: this.state.credentials.login, // test@yahoo.fr
-        mdp: this.state.credentials.password // azerty
-      }
-    );
+    try {
+      // les logins et mot de passe sont OK
+      const result = await axios.post(
+        "https://nameless-retreat-19640.herokuapp.com/api/connexion",
+        {
+          login: this.state.credentials.login, // test@yahoo.fr
+          mdp: this.state.credentials.password // azerty
+        }
+      );
 
-    console.log(result);
+      localStorage.setItem("token", result.data.token);
 
-    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNiYjUxNWUxMWU3MDAwMTdlODVkMjYiLCJuYW1lIjoiQWxhaW4iLCJyb2xlIjoicmVkYWN0ZXVyIiwiaWF0IjoxNTczNjQzNTU4fQ.D8-BS9TwnYaQ82XhJ1tV4Q8QPodIC3_ZJ957Q6nlPI8"
+      // redirection
+      // lorsque l'on avait un bouton de sauvegarde
+      // props vient du composant Route
+      this.props.history.push("/admin");
+    } catch (ex) {
+      // si les login et mot de passe sont KO
 
-    localStorage.setItem("token", result.data.token);
+      this.setState({ errors: ex.response.data.msg });
+    }
   };
 
   change = e => {
@@ -84,6 +93,9 @@ class Login extends Component {
                 </button>
               </div>
             </form>
+            {this.state.errors && (
+              <div className="alert alert-danger">{this.state.errors}</div>
+            )}
           </div>
         </section>
       </>
